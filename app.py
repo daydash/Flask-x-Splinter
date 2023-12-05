@@ -17,8 +17,11 @@ def login():
 
     print(username, password)
 
-    browser = Browser('chrome')
-    browser.visit('https://vaishu-15.github.io/WealthWise/')
+    try:
+        browser = Browser('chrome')
+        browser.visit('https://vaishu-15.github.io/WealthWise/')
+    except Exception as error:
+        print("Error in Browser instance ->\n", error)
 
     getStarted = browser.links.find_by_partial_href('login.html')
     getStarted.click()
