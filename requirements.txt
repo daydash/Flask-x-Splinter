@@ -1,4 +1,4 @@
 virtualenv
 flask
 flask-sqlalchemy
-gunicorn
+waitress
