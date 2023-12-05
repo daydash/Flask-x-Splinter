@@ -18,7 +18,7 @@ def login():
     print(username, password)
 
     try:
-        browser = Browser('chrome')
+        browser = Browser()
         browser.visit('https://vaishu-15.github.io/WealthWise/')
     except Exception as error:
         print("Error in Browser instance ->\n", error)
