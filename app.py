@@ -32,7 +32,7 @@ def search2():
         driver = webdriver.Chrome(options=chrome_options)
         logging.warning("search2 3\n")
         # driver = webdriver.Chrome()
-        driver.get("https://www.google.com")
+        logging.critical(driver.get("https://www.google.com"))
         logging.warning("search2 4\n")
 
         search_box = driver.find_element("name","q")
