@@ -53,6 +53,8 @@ def search():
 
     browser.quit()
 
+    return "hello from search route"
+
 # @app.route("/loginToWW", methods=["POST"])
 # @cross_origin()
 # def login():
