@@ -6,6 +6,9 @@ from flask import Flask
 from waitress import serve
 from flask_cors import CORS
 from selenium.webdriver.chrome.options import Options
+import logging
+
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -13,33 +16,33 @@ cors = CORS(app)
 @app.route("/")
 # @cross_origin()
 def hello_world():
-    print("HELLO, from /")
+    logging.info("HELLO, from /")
     return "<p>Hello, World!!</p>"
 
 
 @app.route("/search2")
 def search2():
     try:
-        print("search2 hitted\n")
+        logging.warning("search2 hitted\n")
         chrome_options = Options()
-        print("search2 1\n")
+        logging.warning("search2 1\n")
         chrome_options.add_argument('--headless')
-        print("search2 2\n")
+        logging.warning("search2 2\n")
         # chrome_options.add_argument('--disable-gpu')
         driver = webdriver.Chrome(options=chrome_options)
-        print("search2 3\n")
+        logging.warning("search2 3\n")
         # driver = webdriver.Chrome()
         driver.get("https://www.google.com")
-        print("search2 4\n")
+        logging.warning("search2 4\n")
 
         search_box = driver.find_element("name","q")
-        print("search2 5\n")
+        logging.warning("search2 5\n")
         search_box.send_keys("chatgpt")
-        print("search2 6\n")
+        logging.warning("search2 6\n")
         search_box.submit()
-        print("search2 7\n")
+        logging.warning("search2 7\n")
     except:
-        print("in expect\n")
+        logging.warning("in expect\n")
     return "hello"
 
 @app.route("/search")
@@ -56,9 +59,9 @@ def search():
     button_element.click()
 
     if browser.is_text_present('splinter.readthedocs.io'):
-        print("Yes, the official website was found!")
+        logging.info("Yes, the official website was found!")
     else:
-        print("No, it wasn't found... We need to improve our SEO techniques")
+        logging.info("No, it wasn't found... We need to improve our SEO techniques")
 
     browser.quit()
 
@@ -70,7 +73,7 @@ def search():
 #     username = request.json['username']
 #     password = request.json['password']
 
-#     print(username, password)
+#     logging.info(username, password)
 
 #     try:
 #         # options = webdriver.ChromeOptions()
@@ -81,7 +84,7 @@ def search():
 #         browser = Browser()
 #         browser.visit('https://vaishu-15.github.io/WealthWise/')
 #     except Exception as error:
-#         print("Error in Browser instance ->\n", error)
+#         logging.info("Error in Browser instance ->\n", error)
 
 #     getStarted = browser.links.find_by_partial_href('login.html')
 #     getStarted.click()
@@ -109,8 +112,8 @@ mode = "prod"
 
 if __name__ == "__main__":
     if mode == "prod":
-        print("in prod")
+        logging.critical("in prod")
         serve(app, host='0.0.0.0', port=5000, threads=1)
     else:
-        print("in dev")
+        logging.critical("in dev")
         app.run(debug=True)
