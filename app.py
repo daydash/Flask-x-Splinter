@@ -18,19 +18,27 @@ def hello_world():
 
 @app.route("/search2")
 def search2():
-    print("search2 hitted\n\n\n\n\n")
-    chrome_options = Options()
-    chrome_options.add_argument('--headless')
-    # chrome_options.add_argument('--disable-gpu')
-    driver = webdriver.Chrome(options=chrome_options)
-    # driver = webdriver.Chrome()
-    driver.get("https://www.google.com")
+    try:
+        print("search2 hitted\n")
+        chrome_options = Options()
+        print("search2 1\n")
+        chrome_options.add_argument('--headless')
+        print("search2 2\n")
+        # chrome_options.add_argument('--disable-gpu')
+        driver = webdriver.Chrome(options=chrome_options)
+        print("search2 3\n")
+        # driver = webdriver.Chrome()
+        driver.get("https://www.google.com")
+        print("search2 4\n")
 
-    search_box = driver.find_element("name","q")
-    search_box.send_keys("chatgpt")
-    search_box.submit()
-
-    print("search2 end\n\n\n\n\n")
+        search_box = driver.find_element("name","q")
+        print("search2 5\n")
+        search_box.send_keys("chatgpt")
+        print("search2 6\n")
+        search_box.submit()
+        print("search2 7\n")
+    except:
+        print("in expect\n")
     return "hello"
 
 @app.route("/search")
