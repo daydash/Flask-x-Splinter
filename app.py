@@ -26,7 +26,7 @@ def search2():
         logging.warning("search2 hitted\n")
         chrome_options = Options()
         logging.warning("search2 1\n")
-        chrome_options.add_argument('--headless')
+        # chrome_options.add_argument('--headless')
         logging.warning("search2 2\n")
         # chrome_options.add_argument('--disable-gpu')
         driver = webdriver.Chrome(options=chrome_options)
