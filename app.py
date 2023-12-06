@@ -53,7 +53,7 @@ def login():
 
     return username
 
-mode = "dev"
+mode = "prod"
 
 if __name__ == "__main__":
     if mode == "prod":
