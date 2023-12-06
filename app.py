@@ -1,4 +1,4 @@
-# from selenium import webdriver
+from selenium import webdriver
 from splinter import Browser
 # import time
 from flask import Flask
@@ -14,6 +14,15 @@ cors = CORS(app)
 def hello_world():
     return "<p>Hello, World!!</p>"
 
+
+@app.route("/search2")
+def search2():
+    driver = webdriver.Chrome()
+    driver.get("https://www.google.com")
+
+    search_box = driver.find_element("name","q")
+    search_box.send_keys("chatgpt")
+    search_box.submit()
 
 @app.route("/search")
 def search():

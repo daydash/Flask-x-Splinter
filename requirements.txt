@@ -1,4 +1,5 @@
 flask
+selenium
 splinter
 waitress
 flask-cors
