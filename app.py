@@ -18,6 +18,7 @@ def hello_world():
 
 @app.route("/search2")
 def search2():
+    print("search2 hitted\n\n\n\n\n")
     chrome_options = Options()
     chrome_options.add_argument('--headless')
     # chrome_options.add_argument('--disable-gpu')
@@ -29,6 +30,7 @@ def search2():
     search_box.send_keys("chatgpt")
     search_box.submit()
 
+    print("search2 end\n\n\n\n\n")
     return "hello"
 
 @app.route("/search")
