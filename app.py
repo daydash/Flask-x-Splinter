@@ -5,6 +5,7 @@ from flask import Flask
 # ,request, jsonify
 from waitress import serve
 from flask_cors import CORS
+from selenium.webdriver.chrome.options import Options
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -17,12 +18,18 @@ def hello_world():
 
 @app.route("/search2")
 def search2():
-    driver = webdriver.Chrome()
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')
+    # chrome_options.add_argument('--disable-gpu')
+    driver = webdriver.Chrome(options=chrome_options)
+    # driver = webdriver.Chrome()
     driver.get("https://www.google.com")
 
     search_box = driver.find_element("name","q")
     search_box.send_keys("chatgpt")
     search_box.submit()
+
+    return "hello"
 
 @app.route("/search")
 def search():
