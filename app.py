@@ -3,14 +3,18 @@ from splinter import Browser
 import time
 from flask import Flask,request, jsonify
 from waitress import serve
+from flask_cors import CORS
 
 app = Flask(__name__)
+cors = CORS(app)
 
 @app.route("/")
+# @cross_origin()
 def hello_world():
     return "<p>Hello, World!!</p>"
 
 @app.route("/loginToWW", methods=["POST"])
+# @cross_origin()
 def login():
     username = request.json['username']
     password = request.json['password']
@@ -18,7 +22,11 @@ def login():
     print(username, password)
 
     try:
-        browser = Browser()
+        options = webdriver.ChromeOptions()
+        options.add_argument('--headless')  # Run Chrome in headless mode
+        driver = webdriver.Chrome(options=options)
+
+        browser = Browser("chrome")
         browser.visit('https://vaishu-15.github.io/WealthWise/')
     except Exception as error:
         print("Error in Browser instance ->\n", error)
@@ -45,5 +53,12 @@ def login():
 
     return username
 
+mode = "dev"
+
 if __name__ == "__main__":
-    serve(app, host='0.0.0.0', port=5000, threads=1)
+    if mode == "prod":
+        print("in prod")
+        serve(app, host='0.0.0.0', port=5000, threads=1)
+    else:
+        print("in dev")
+        app.run(debug=True)

@@ -4,3 +4,4 @@ flask-sqlalchemy
 selenium
 splinter
 waitress
+flask-cors
