@@ -22,11 +22,12 @@ def login():
     print(username, password)
 
     try:
-        options = webdriver.ChromeOptions()
-        options.add_argument('--headless')  # Run Chrome in headless mode
-        driver = webdriver.Chrome(options=options)
+        # options = webdriver.ChromeOptions()
+        # options.add_argument('--headless') 
+        # options.add_argument('--disable-gpu')
+        # driver = webdriver.Chrome(options=options)
 
-        browser = Browser("chrome")
+        browser = Browser()
         browser.visit('https://vaishu-15.github.io/WealthWise/')
     except Exception as error:
         print("Error in Browser instance ->\n", error)
