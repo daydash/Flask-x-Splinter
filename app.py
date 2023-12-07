@@ -19,46 +19,113 @@ def hello_world():
     logging.info("HELLO, from /")
     return "<p>Hello, World!!</p>"
 
-@app.route("/search3")
-def search3():
+
+@app.route("/search4")
+def search4():
     script_to_inject = """
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pyodide@0.24.1/pyodide.min.js"></script>
         <script type="text/javascript">
         console.log("Before using languagePluginLoader");
-        loadPyodide({ indexURL: "https://cdn.jsdelivr.net/pyodide/v0.18.0/full" }).then((pyodide) => {
-            console.log("inside lang")
-            globalThis.pyodide = pyodide 
-            pyodide.loadPackage(['selenium','splinter']).then(() => {
-            const result = pyodide.runPython(`
-                from selenium import webdriver
-                import time
-                from selenium.webdriver.chrome.options import Options
+        async function main(){
+            let pyodide = await loadPyodide();
+            await pyodide.loadPackage("micropip");
+            const micropip = await pyodide.pyimport("micropip");
+            await micropip.install("splinter");
+            await micropip.install("selenium");
+            await micropip.install("lxml");
+            await micropip.install("django");
+            await micropip.install("flask");
+            await micropip.install("cssselect");
+            await micropip.install("webdriver-manager");
+    
+            await pyodide.runPython(`
                 import logging
+                from selenium import webdriver
+                from splinter import Browser
+                from webdriver_manager.chrome import ChromeDriverManager
 
+                logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
                 try:
-                    
-                    chrome_options = Options()
-                    driver = webdriver.Chrome(options=chrome_options)
-                    data = driver.get('https://www.google.com')
                 
+                    driver = webdriver.Chrome(ChromeDriverManager().install())
 
-                    search_box = driver.find_element('name','q')
-                
-                    search_box.send_keys("chatgpt")
-                 
-                    search_box.submit()
-     
-                    time.sleep(5)
-                except:
-                    logging.warning('in expect\n')
-            `);
-            console.log(result);
-            });
-        });
+                    browser = Browser(driver)
+                    browser.visit('http://google.com')
+                    input_element = browser.find_by_name('q')
+                    input_element.fill('splinter - python acceptance testing for web applications')
+
+                    button_element = browser.find_by_name('btnK')[1]
+                    button_element.click()
+
+                    if browser.is_text_present('splinter.readthedocs.io'):
+                        logging.info("Yes, the official website was found!")
+                    else:
+                        logging.info("No, it wasn't found... We need to improve our SEO techniques")
+
+                    browser.quit()
+
+                except Exception as error:
+                    logging.warning('in expect: %s' % str(error))
+                `);
+            }
+        main();
+
         console.log("After using languagePluginLoader");
         </script>
     """
-    return render_template_string("<html><body>{{ script_to_inject | safe}}</body></html>", script_to_inject=script_to_inject)
+    return render_template_string("<html><head><script src='https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js'></script></head><body>{{ script_to_inject | safe}}</body></html>", script_to_inject=script_to_inject)
+
+
+
+@app.route("/search3")
+def search3():
+    script_to_inject = """
+        <script type="text/javascript">
+        console.log("Before using languagePluginLoader");
+        async function main(){
+            let pyodide = await loadPyodide();
+            await pyodide.loadPackage("micropip");
+            const micropip = await pyodide.pyimport("micropip");
+            await micropip.install("selenium");
+            await micropip.install("webdriver-manager");
+    
+            await pyodide.runPython(`
+                import logging
+
+                logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+                from selenium import webdriver
+                import time
+                from selenium.webdriver.chrome.options import Options
+                from webdriver_manager.chrome import ChromeDriverManager
+                from webdriver_manager.core.os_manager import ChromeType
+
+                try:
+                    logging.warning("0")
+                    chrome_options = Options()
+                    logging.warning("1")
+                    chrome_options.add_argument('--headless')
+                    logging.warning("2")
+                    chrome_options.add_argument('--disable-gpu')
+                    logging.warning("3")
+                    # driver = webdriver.Chrome(ChromeDriverManager().install())
+                    logging.warning("4")
+                    driver.get('https://www.google.com')
+                    logging.warning("5")
+                    search_box = driver.find_element('name', 'q')
+                    logging.warning("6")
+                    search_box.send_keys('chatgpt')
+                    logging.warning("7")
+                    search_box.submit()
+                    logging.warning("8")   
+                except Exception as error:
+                    logging.warning(error)
+                `);
+            }
+        main();
+
+        console.log("After using languagePluginLoader");
+        </script>
+    """
+    return render_template_string("<html><head><script src='https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js'></script></head><body>{{ script_to_inject | safe}}</body></html>", script_to_inject=script_to_inject)
 
 
 
