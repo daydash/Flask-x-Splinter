@@ -20,6 +20,61 @@ def hello_world():
     return "<p>Hello, World!!</p>"
 
 
+@app.route("/search5")
+def search5():
+    script_to_inject = """
+        <script type="text/javascript">
+        console.log("Before using languagePluginLoader");
+        async function main(){
+            let pyodide = await loadPyodide();
+            await pyodide.loadPackage("micropip");
+            const micropip = await pyodide.pyimport("micropip");
+            await micropip.install("selenium");
+            await micropip.install("webdriver-manager");
+    
+            await pyodide.runPython(`
+                import logging
+
+                logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+                from selenium import webdriver
+                import time
+                from selenium.webdriver.chrome.options import Options
+                from webdriver_manager.chrome import ChromeDriverManager
+                from webdriver_manager.core.os_manager import ChromeType
+
+                try:
+                    logging.warning("0")
+                    chrome_options = Options()
+                    logging.warning("1")
+                    chrome_options.add_argument('--headless')
+                    logging.warning("2")
+                    chrome_options.add_argument('--disable-gpu')
+                    logging.warning("3")
+                    # driver = webdriver.Chrome(ChromeDriverManager().install())
+                    driver = webdriver.Remote(command_executor="https://www.browserling.com/", options=chrome_options)
+                    logging.warning("4")
+                    driver.get('https://www.google.com')
+                    logging.warning("5")
+                    search_box = driver.find_element('name', 'q')
+                    logging.warning("6")
+                    search_box.send_keys('chatgpt')
+                    logging.warning("7")
+                    search_box.submit()
+                    logging.warning("8")   
+                except Exception as error:
+                    logging.warning(error)
+                `);
+            }
+        main();
+
+        console.log("After using languagePluginLoader");
+        </script>
+    """
+    return render_template_string("<html><head><script src='https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js'></script></head><body>{{ script_to_inject | safe}}</body></html>", script_to_inject=script_to_inject)
+
+
+
+
 @app.route("/search4")
 def search4():
     script_to_inject = """
