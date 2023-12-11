@@ -11,6 +11,11 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.support.ui import Select
+
+import numpy as np
+a = np.array([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]])
+print(a[0])
+
 logging.warning("search2 hitted\n")
 # chrome_options = Options()
 logging.warning("search2 1\n")

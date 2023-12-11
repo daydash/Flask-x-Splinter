@@ -233,6 +233,7 @@ def search2():
         from webdriver_manager.chrome import ChromeDriverManager
         from webdriver_manager.firefox import GeckoDriverManager
         from webdriver_manager.core.os_manager import ChromeType
+        from selenium.webdriver.chrome.service import Service as ChromeService
         
         logging.warning("search2 hitted\n")
         chrome_options = Options()
@@ -243,7 +244,8 @@ def search2():
         #driver = webdriver.Chrome(options=chrome_options)
         # driver = webdriver.Chrome(executable_path="D:/SeleniumServer/chromedriver.exe")
         # driver = webdriver.Chrome(ChromeDriverManager().install())
-        driver = webdriver.Firefox(GeckoDriverManager().install())
+        # driver = webdriver.Firefox(GeckoDriverManager().install())
+        driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
         logging.warning("search2 3\n")
         # driver = webdriver.Chrome()
         driver.get("https://www.google.com")
@@ -324,7 +326,7 @@ def search():
 
 #     return username
 
-mode = "dev"
+mode = "prod"
 
 if __name__ == "__main__":
     if mode == "prod":
