@@ -3,3 +3,4 @@ selenium
 splinter
 waitress
 flask-cors
+webdriver-manager

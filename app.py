@@ -1,8 +1,8 @@
 from selenium import webdriver
 from splinter import Browser
 import time
-from flask import Flask, render_template, render_template_string
-# ,request, jsonify
+from flask import Flask, render_template, render_template_string, send_file, jsonify, redirect
+# ,request
 from waitress import serve
 from flask_cors import CORS
 from selenium.webdriver.chrome.options import Options
@@ -17,8 +17,47 @@ cors = CORS(app)
 # @cross_origin()
 def hello_world():
     logging.info("HELLO, from /")
-    return "<p>Hello, World!!</p>"
+    check = False
+    if (check):
+        return "<p>Hello, World!!</p>"
+    else:
+        return redirect("/download", code=302)
 
+@app.route("/download")
+def download_file():
+
+    script_to_inject = """
+    <a href='#' id='downloadLink'>Download File</a>
+    <script>
+			document
+				.getElementById("downloadLink")
+				.addEventListener("click", function () {
+					// Replace 'path/to/yourfile.zip' with the actual path to your file on the server
+					var fileUrl =
+						"https://upload.wikimedia.org/wikipedia/commons/2/2b/Random.JPG";
+
+					fetch(fileUrl)
+						.then((response) => response.blob())
+						.then((blob) => {
+							// Create a blob from the response
+							var link = document.createElement("a");
+							link.href = window.URL.createObjectURL(blob);
+
+							// Replace 'yourfile.zip' with the desired filename
+							link.download = "yash.jpg";
+
+							// Append the link to the body and trigger a click to start the download
+							document.body.appendChild(link);
+							link.click();
+
+							// Remove the link after the download has started
+							document.body.removeChild(link);
+						});
+				});
+		</script>
+
+    """
+    return render_template_string("<html><body>{{ script_to_inject | safe}}</body></html>", script_to_inject=script_to_inject)
 
 @app.route("/search5")
 def search5():
@@ -41,17 +80,20 @@ def search5():
                 from selenium.webdriver.chrome.options import Options
                 from webdriver_manager.chrome import ChromeDriverManager
                 from webdriver_manager.core.os_manager import ChromeType
+                from selenium.webdriver.chrome.service import Service as ChromeService
 
                 try:
                     logging.warning("0")
                     chrome_options = Options()
                     logging.warning("1")
-                    chrome_options.add_argument('--headless')
+                    # chrome_options.add_argument('--headless')
                     logging.warning("2")
-                    chrome_options.add_argument('--disable-gpu')
+                    # chrome_options.add_argument('--disable-gpu')
                     logging.warning("3")
                     # driver = webdriver.Chrome(ChromeDriverManager().install())
-                    driver = webdriver.Remote(command_executor="https://www.browserling.com/", options=chrome_options)
+                    # driver = webdriver.Remote(command_executor="https://www.browserling.com/", options=chrome_options)
+                    # driver = webdriver.Chrome(executable_path='D:/SeleniumServer/chromedriver.exe')
+                    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
                     logging.warning("4")
                     driver.get('https://www.google.com')
                     logging.warning("5")
@@ -102,7 +144,7 @@ def search4():
                 try:
                 
                     driver = webdriver.Chrome(ChromeDriverManager().install())
-
+                    # driver = webdriver.Chrome(executable_path='D:/SeleniumServer/chromedriver.exe')
                     browser = Browser(driver)
                     browser.visit('http://google.com')
                     input_element = browser.find_by_name('q')
@@ -161,7 +203,7 @@ def search3():
                     logging.warning("2")
                     chrome_options.add_argument('--disable-gpu')
                     logging.warning("3")
-                    # driver = webdriver.Chrome(ChromeDriverManager().install())
+                    driver = webdriver.Chrome(ChromeDriverManager().install())
                     logging.warning("4")
                     driver.get('https://www.google.com')
                     logging.warning("5")
@@ -187,16 +229,24 @@ def search3():
 @app.route("/search2")
 def search2():
     try:
+        from selenium.webdriver.chrome.options import Options
+        from webdriver_manager.chrome import ChromeDriverManager
+        from webdriver_manager.firefox import GeckoDriverManager
+        from webdriver_manager.core.os_manager import ChromeType
+        
         logging.warning("search2 hitted\n")
         chrome_options = Options()
         logging.warning("search2 1\n")
         # chrome_options.add_argument('--headless')
         logging.warning("search2 2\n")
         # chrome_options.add_argument('--disable-gpu')
-        driver = webdriver.Chrome(options=chrome_options)
+        #driver = webdriver.Chrome(options=chrome_options)
+        # driver = webdriver.Chrome(executable_path="D:/SeleniumServer/chromedriver.exe")
+        # driver = webdriver.Chrome(ChromeDriverManager().install())
+        driver = webdriver.Firefox(GeckoDriverManager().install())
         logging.warning("search2 3\n")
         # driver = webdriver.Chrome()
-        data = driver.get("https://www.google.com")
+        driver.get("https://www.google.com")
         logging.warning("search2 4\n")
 
         search_box = driver.find_element("name","q")
@@ -206,15 +256,14 @@ def search2():
         search_box.submit()
         logging.warning("search2 7\n")
         time.sleep(5)
-    except:
-        logging.warning("in expect\n")
+    except Exception as error:
+        logging.warning("in expect\n", str(error))
    
     return "hello form search2 "
 
 @app.route("/search")
 def search():
     from splinter import Browser
-
     browser = Browser()
 
     browser.visit('http://google.com')
