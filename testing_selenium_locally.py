@@ -12,20 +12,25 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.support.ui import Select
 
-import numpy as np
-a = np.array([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]])
-print(a[0])
+# import numpy as np
+# a = np.array([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]])
+# print(a[0])
 
 logging.warning("search2 hitted\n")
-# chrome_options = Options()
+chrome_options = Options()
+# chrome_options.add_experimental_option("prefs", {"excludeSwitches": ['enable-automation', 'load-extension']})
+chrome_options.add_experimental_option('excludeSwitches', ['load-extension', 'enable-automation'])
+chrome_options.page_load_strategy = 'normal'
+chrome_options.enable_downloads = True
+# chrome_options.add_argument("--disable-extensions")
 logging.warning("search2 1\n")
 # chrome_options.add_argument('--headless')
 logging.warning("search2 2\n")
 # chrome_options.add_argument('--disable-gpu')
-# driver = webdriver.Chrome(options=chrome_options)
+driver = webdriver.Chrome(options=chrome_options)
 # driver = webdriver.Chrome("D:/SeleniumServer/chromedriver.exe")
 # driver = webdriver.Chrome(ChromeDriverManager().install())
-driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+# driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
 logging.warning("search2 3\n")
 # driver = webdriver.Chrome()
 driver.get("https://www.google.com")

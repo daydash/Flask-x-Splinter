@@ -86,6 +86,12 @@ def search5():
                     logging.warning("0")
                     chrome_options = Options()
                     logging.warning("1")
+                    chrome_options.add_experimental_option('excludeSwitches', ['load-extension', 'enable-automation'])
+                    chrome_options.add_experimental_option('useAutomationExtension',False)
+                    chrome_options.add_argument('--no-sandbox')
+                    chrome_options.add_argument('--disable-dev-shm-usage')
+                    chrome_options.page_load_strategy = 'normal'
+                    chrome_options.enable_downloads = True
                     # chrome_options.add_argument('--headless')
                     logging.warning("2")
                     # chrome_options.add_argument('--disable-gpu')
@@ -93,7 +99,8 @@ def search5():
                     # driver = webdriver.Chrome(ChromeDriverManager().install())
                     # driver = webdriver.Remote(command_executor="https://www.browserling.com/", options=chrome_options)
                     # driver = webdriver.Chrome(executable_path='D:/SeleniumServer/chromedriver.exe')
-                    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+                    # driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+                    driver = webdriver.Chrome(options=chrome_options)
                     logging.warning("4")
                     driver.get('https://www.google.com')
                     logging.warning("5")
