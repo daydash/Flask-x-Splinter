@@ -100,7 +100,7 @@ def search5():
                     # driver = webdriver.Remote(command_executor="https://www.browserling.com/", options=chrome_options)
                     # driver = webdriver.Chrome(executable_path='D:/SeleniumServer/chromedriver.exe')
                     # driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
-                    driver = webdriver.Chrome(options=chrome_options)
+                    driver = webdriver.Chrome('chromedriver',options=chrome_options)
                     logging.warning("4")
                     driver.get('https://www.google.com')
                     logging.warning("5")
