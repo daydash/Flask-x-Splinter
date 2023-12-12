@@ -143,16 +143,17 @@ def search4():
     
             await pyodide.runPython(`
                 import logging
-                from selenium import webdriver
+                # from selenium import webdriver
                 from splinter import Browser
-                from webdriver_manager.chrome import ChromeDriverManager
+                # from webdriver_manager.chrome import ChromeDriverManager
 
                 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
                 try:
                 
-                    driver = webdriver.Chrome(ChromeDriverManager().install())
+                    # driver = webdriver.Chrome(ChromeDriverManager().install())
                     # driver = webdriver.Chrome(executable_path='D:/SeleniumServer/chromedriver.exe')
-                    browser = Browser(driver)
+                    # browser = Browser(driver)
+                    browser = Browser()
                     browser.visit('http://google.com')
                     input_element = browser.find_by_name('q')
                     input_element.fill('splinter - python acceptance testing for web applications')
@@ -245,14 +246,14 @@ def search2():
         logging.warning("search2 hitted\n")
         chrome_options = Options()
         logging.warning("search2 1\n")
-        # chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--headless')
         logging.warning("search2 2\n")
-        # chrome_options.add_argument('--disable-gpu')
-        #driver = webdriver.Chrome(options=chrome_options)
+        chrome_options.add_argument('--disable-gpu')
+        # driver = webdriver.Chrome(options=chrome_options)
         # driver = webdriver.Chrome(executable_path="D:/SeleniumServer/chromedriver.exe")
-        # driver = webdriver.Chrome(ChromeDriverManager().install())
+        driver = webdriver.Chrome(ChromeDriverManager().install())
         # driver = webdriver.Firefox(GeckoDriverManager().install())
-        driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+        # driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
         logging.warning("search2 3\n")
         # driver = webdriver.Chrome()
         driver.get("https://www.google.com")

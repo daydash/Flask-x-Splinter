@@ -17,6 +17,7 @@ from selenium.webdriver.support.ui import Select
 # print(a[0])
 
 logging.warning("search2 hitted\n")
+# chrome_options = webdriver.Options()
 chrome_options = Options()
 # chrome_options.add_experimental_option("prefs", {"excludeSwitches": ['enable-automation', 'load-extension']})
 chrome_options.add_experimental_option('excludeSwitches', ['load-extension', 'enable-automation'])
